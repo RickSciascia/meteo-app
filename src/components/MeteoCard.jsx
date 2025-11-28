@@ -60,12 +60,9 @@ const MeteoCard = function (props) {
                     getMeteo();
                   }}
                 >
-                  <i class="bi bi-arrow-clockwise"></i>
+                  <i className="bi bi-arrow-clockwise"></i>
                 </Button>
               </div>
-
-              {/* <Card.Link href="#">Card Link</Card.Link>
-            <Card.Link href="#">Another Link</Card.Link> */}
             </Card.Body>
           </Card>
         </Col>
