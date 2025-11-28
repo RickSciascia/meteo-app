@@ -5,7 +5,7 @@ const MyFooter = function () {
     <Container>
       <Row className="justify-content-center">
         <Col sm={12} md={8}>
-          <p>COPYRIGHT © RICCARDO SCIASCIA 2025</p>
+          <p className="text-center">COPYRIGHT © RICCARDO SCIASCIA 2025</p>
         </Col>
       </Row>
     </Container>

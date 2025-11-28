@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { Spinner, Card } from "react-bootstrap";
+import { Spinner, Card, Col, Button } from "react-bootstrap";
 const MeteoCard = function (props) {
   const [loading, setLoading] = useState(true);
+  const [cityForecast, setCityForecast] = useState({});
 
   const getMeteo = function () {
     const endpoint = "https://api.openweathermap.org/data/2.5/weather?q=";
@@ -17,6 +18,7 @@ const MeteoCard = function (props) {
       .then((meteo) => {
         console.log(meteo);
         setLoading(false);
+        setCityForecast(meteo);
       })
       .catch((err) => {
         console.log("Errore", err);
@@ -24,6 +26,7 @@ const MeteoCard = function (props) {
   };
   useEffect(() => {
     getMeteo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>
@@ -32,20 +35,40 @@ const MeteoCard = function (props) {
           <Spinner animation="border" variant="info"></Spinner>
         </div>
       ) : (
-        <Card>
-          <Card.Body>
-            <Card.Title>Card Title</Card.Title>
-            <Card.Subtitle className="mb-2 text-muted">
-              Card Subtitle
-            </Card.Subtitle>
-            <Card.Text>
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </Card.Text>
-            <Card.Link href="#">Card Link</Card.Link>
-            <Card.Link href="#">Another Link</Card.Link>
-          </Card.Body>
-        </Card>
+        <Col sm={12} md={6} lg={4} key={cityForecast.id}>
+          <Card bg="info" className="my-3">
+            <Card.Body>
+              <Card.Title>{props.city}</Card.Title>
+              <Card.Subtitle className="mb-2 text-muted">Italia</Card.Subtitle>
+              <Card.Text>
+                {"Attualmente: "}
+                {cityForecast.weather[0].main}
+                {" - "}
+                {cityForecast.weather[0].description}
+              </Card.Text>
+              <Card.Text>Temperatura: {cityForecast.main.temp} °C</Card.Text>
+              <Card.Text>Umidità: {cityForecast.main.humidity} %</Card.Text>
+              <Card.Text>
+                Percepita: {cityForecast.main.feels_like} °C
+              </Card.Text>
+              <Card.Text>Vento: {cityForecast.wind.speed} Km/h</Card.Text>
+              <div className="d-flex justify-content-end">
+                <Button
+                  variant="transparent"
+                  className="text-white"
+                  onClick={() => {
+                    getMeteo();
+                  }}
+                >
+                  <i class="bi bi-arrow-clockwise"></i>
+                </Button>
+              </div>
+
+              {/* <Card.Link href="#">Card Link</Card.Link>
+            <Card.Link href="#">Another Link</Card.Link> */}
+            </Card.Body>
+          </Card>
+        </Col>
       )}
     </>
   );

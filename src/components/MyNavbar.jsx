@@ -4,8 +4,8 @@ import Navbar from "react-bootstrap/Navbar";
 
 function MyNavbar() {
   return (
-    <Navbar expand="lg" className="bg-body-dark">
-      <Container>
+    <Navbar expand="lg" className="text-bg-info">
+      <Container fluid>
         <Navbar.Brand href="#home">AppMeteo</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
