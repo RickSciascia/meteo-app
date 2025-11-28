@@ -13,6 +13,7 @@ const Home = function () {
   const navigate = useNavigate();
   return (
     <Container fluid className="min-vh-100">
+      <title>AppMeteo - Home</title>
       <Row className="justify-content-center">
         <Col sm={12} md={8} className="mt-3">
           <h3 className="text-center">

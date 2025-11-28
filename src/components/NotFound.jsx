@@ -5,6 +5,7 @@ const NotFound = function () {
   const navigate = useNavigate();
   return (
     <Container fluid className="my-3 min-vh-100">
+      <title>AppMeteo - Contenuto Non Trovato</title>
       <Row className="justify-content-center">
         <Col sm={12} md={8} lg={6}>
           <h1>Spiacente!</h1>

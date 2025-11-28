@@ -1,11 +1,20 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { Container, Col, Row, Spinner, Card, Alert } from "react-bootstrap";
+import { useParams, useNavigate } from "react-router-dom";
+import {
+  Container,
+  Col,
+  Row,
+  Spinner,
+  Card,
+  Alert,
+  Button,
+} from "react-bootstrap";
 const MeteoDetails = function () {
   const [meteo, setMeteo] = useState([]);
   const [loading, setLoading] = useState(true);
-  //   const [error, setError] = useState(false);
+  const [error, setError] = useState(false);
   const params = useParams();
+  const navigate = useNavigate();
   const getMeteoForCity = function () {
     const endpoint = "https://api.openweathermap.org/data/2.5/forecast?q=";
     const cityToFetch = params.city;
@@ -25,7 +34,7 @@ const MeteoDetails = function () {
       .catch((err) => {
         console.log("Errore", err);
         setLoading(false);
-        // setError(true);
+        setError(true);
       });
   };
   useEffect(() => {
@@ -34,7 +43,121 @@ const MeteoDetails = function () {
   }, []);
   return (
     <>
-      {loading ? (
+      <title>AppMeteo - Dettagli</title>
+      {loading && (
+        <div className="text-center my-3 min-vh-100">
+          <Spinner animation="border" variant="info"></Spinner>
+        </div>
+      )}
+      {!loading && error && (
+        <Container className="min-vh-100 mt-3">
+          <Alert variant="danger">
+            Spiacente c'è stato un errore nel caricamento dei dati meteo per{" "}
+            {params.city}
+            <p>Prova con un'altra città</p>
+            <Button
+              variant="danger"
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              Torna alla Home
+            </Button>
+          </Alert>
+        </Container>
+      )}
+
+      {!loading && !error && (
+        <>
+          <Container fluid className="min-vh-100">
+            <h2 className="mt-3">
+              Dettagli Meteo per {meteo.city.name}, Italy{" "}
+            </h2>
+            <Row className="justify-content-center">
+              <Col sm={12} md={10}>
+                <Card bg="info" className="my-3">
+                  <Card.Body>
+                    <Card.Title className="fw-bold">
+                      {meteo.city.name}
+                    </Card.Title>
+                    <Card.Subtitle className="mb-2 text-muted">
+                      Italia
+                    </Card.Subtitle>
+                    <Card.Text className="my-1 fw-bold">
+                      METEO ATTUALE:
+                    </Card.Text>
+                    <Card.Text className="my-1">
+                      {meteo.list[0].weather[0].main} -{" "}
+                      {meteo.list[0].weather[0].description}
+                    </Card.Text>
+                    <Card.Text className="my-1">
+                      Temperatura Attuale: {meteo.list[0].main.temp} °C
+                    </Card.Text>
+                    <Card.Text className="my-1">
+                      Umidità: {meteo.list[0].main.humidity} %
+                    </Card.Text>
+                    <Card.Text className="my-1">
+                      Percepita: {meteo.list[0].main.feels_like} °C
+                    </Card.Text>
+                    <Card.Text className="my-1">
+                      Vento: {meteo.list[0].wind.speed} Km/h
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+                <Card bg="info" className="my-3">
+                  <Card.Body>
+                    <Card.Text className="my-1 fw-bold">
+                      PREVISIONI METEO DEL {meteo.list[8].dt_txt}
+                    </Card.Text>
+                    <Card.Text className="my-1">
+                      {meteo.list[8].weather[0].main} -{" "}
+                      {meteo.list[8].weather[0].description}
+                    </Card.Text>
+                    <Card.Text className="my-1">
+                      Temperatura Prevista: {meteo.list[8].main.temp} °C
+                    </Card.Text>
+                    <Card.Text className="my-1">
+                      Umidità: {meteo.list[8].main.humidity} %
+                    </Card.Text>
+                  </Card.Body>
+                  <Card.Body>
+                    <Card.Text className="my-1 fw-bold">
+                      PREVISIONI METEO DEL {meteo.list[16].dt_txt}
+                    </Card.Text>
+                    <Card.Text className="my-1">
+                      {meteo.list[16].weather[0].main} -{" "}
+                      {meteo.list[16].weather[0].description}
+                    </Card.Text>
+                    <Card.Text className="my-1">
+                      Temperatura Prevista: {meteo.list[16].main.temp} °C
+                    </Card.Text>
+                    <Card.Text className="my-1">
+                      Umidità: {meteo.list[24].main.humidity} %
+                    </Card.Text>
+                  </Card.Body>
+                  <Card.Body>
+                    <Card.Text className="my-1 fw-bold">
+                      PREVISIONI METEO DEL {meteo.list[16].dt_txt}
+                    </Card.Text>
+                    <Card.Text className="my-1">
+                      {meteo.list[24].weather[0].main} -{" "}
+                      {meteo.list[24].weather[0].description}
+                    </Card.Text>
+                    <Card.Text className="my-1">
+                      Temperatura Prevista: {meteo.list[24].main.temp} °C
+                    </Card.Text>
+                    <Card.Text className="my-1">
+                      Umidità: {meteo.list[24].main.humidity} %
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+          </Container>
+        </>
+      )}
+
+      {/* {loading ? (
         <div className="text-center my-3 min-vh-100">
           <Spinner animation="border" variant="info"></Spinner>
         </div>
@@ -124,7 +247,7 @@ const MeteoDetails = function () {
             </Row>
           </Container>
         </>
-      )}
+      )} */}
     </>
   );
 };
